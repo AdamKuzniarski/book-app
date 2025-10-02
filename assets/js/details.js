@@ -1,9 +1,7 @@
-const detailContainer = document.getElementById("detail-container");
+import fetchBooks from "./fetch.js";
 
 export function createDetail(detail) {
-  //detailContainer.innerHTML = "";
-  const mainElement = document.createElement("main");
-
+  const detailContainer = document.getElementById("detail-container");
   const id = detail.id;
   const title = detail.title;
   const subtitle = detail.subtitle;
@@ -16,7 +14,7 @@ export function createDetail(detail) {
   const cover = detail.cover;
   const userId = detail.userId;
 
-  mainElement.innerHTML = `
+  detailContainer.innerHTML = `
 
       <h1>
         ${title}<br />
@@ -50,8 +48,6 @@ export function createDetail(detail) {
 
 
 `;
-  mainElement.append(detailContainer);
-  return mainElement;
 }
 
 function getIsbnFromUrl() {
@@ -60,10 +56,13 @@ function getIsbnFromUrl() {
 }
 
 async function main() {
-  //hol die isbn
-  //fetch buch mit isbn
-  // setz die detailspage ums
+  const isbn = getIsbnFromUrl();
+  const book = await fetchBooks(isbn);
+  console.log(book);
+  
+  createDetail(book);
+
 }
 main();
 
-// hallo adam
+

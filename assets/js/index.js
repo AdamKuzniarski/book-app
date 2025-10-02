@@ -1,6 +1,13 @@
-import { createDetail } from "./details.js";
 import fetchBooks from "./fetch.js";
 
+const bookList = document.getElementById("book-list");
+
+function setBooksNum(books) {
+  const booksNum = document.getElementById("displayed-books-number");
+  booksNum.textContent = `${books.length} Book${
+    books.length !== 1 ? "s" : ""
+  } displayed`;
+}
 
 function createBook(info) {
   const tr = document.createElement("tr");
@@ -12,20 +19,7 @@ function createBook(info) {
   tr.innerHTML = `
   
 
-            <thead>
-              <tr>
-                <th class="first-col">&nbsp;</th>
-                <td>${title}</td>
-                <td>${isbn}</td>
-                <td>${author}</td>
-                <td>${publisher}</td>
-                <td>
-                 <button onclick="location.href='detail.html?isbn=${isbn}'">Detail</button>
-                </td>
-                
-              </tr>
-            </thead>
-            <tbody>
+       
               <tr>
                 <td>
                   <button class="button button-clear fav-btn">
@@ -41,33 +35,75 @@ function createBook(info) {
                     </svg>
                   </button>
                 </td>
-                
-                </tr>
-                </tbody>
+                <td>${title}</td>
+                <td>${isbn}</td>
+                <td>${author}</td>
+                <td>${publisher}</td>
+                <td>
+                 <button onclick="location.href='detail.html?isbn=${isbn}'">Detail</button>
+                </td>
+              </tr>
+      
               
 
   `;
   return tr;
 }
 
+export default function searchTitle(data) {
+  const searchInput = document.getElementById("search");
+  const filterEl = document.getElementById("by-publisher");
 
-async function main(){
-const data = await fetchBooks();
-const bookList = document.getElementById("book-list");
-bookList.innerHTML= ``
-  data.forEach((book) => {
-    const newBook = createBook(book);
-    bookList.append(newBook);
-   // createDetail(book);
+  filterEl.innerHTML = `
+  <option value="-">-</option>`;
+  const publishers = new Set(data.map((book) => book.publisher));
+  publishers.forEach((publisher) => {
+    const option = document.createElement("option");
+    option.value = publisher;
+    option.textContent = publisher;
+    filterEl.append(option);
+  
+   
+  });
+
+filterEl.addEventListener("change", async () => {
+  const selectedPublisher = filterEl.value === "-" ? "" : filterEl.value;
+  const searchQuery = searchInput.value.trim();
+
+  const results = await fetchBooks({ search: searchQuery, publisher: selectedPublisher });
+
+  bookList.innerHTML = "";
+  results.forEach((book) => bookList.append(createBook(book)));
+  setBooksNum(results);
+});
+
+  
+
+
+  searchInput.addEventListener("input", async (event) => {
+    let searchQuery = "";
+    searchQuery = searchInput.value;
+    const results = await fetchBooks({ search: searchQuery });
+    console.log(results);
+    bookList.innerHTML = ``;
+    results.forEach((book) => {
+      const newBook = createBook(book);
+      bookList.append(newBook);
+    });
+    setBooksNum(results);
   });
 }
 
+async function main() {
+  const data = await fetchBooks();
+
+  bookList.innerHTML = ``;
+  data.forEach((book) => {
+    const newBook = createBook(book);
+    bookList.append(newBook);
+  });
+
+  setBooksNum(data);
+  searchTitle(data);
+}
 main();
-
-
-
-
-
-
-
-
