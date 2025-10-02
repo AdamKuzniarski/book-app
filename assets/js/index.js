@@ -1,23 +1,6 @@
 import { createDetail } from "./details.js";
+import fetchBooks from "./fetch.js";
 
-const bookList = document.getElementById("book-list");
-
-async function fetchBooks() {
-  // bookList.inHTML ="";
-
-  const response = await fetch(`http://localhost:4730/books`);
-  const data = await response.json();
-
-  data.forEach((book) => {
-    const newBook = createBook(book);
-    bookList.append(newBook);
-    //createDetail(book);
-  });
-
-  return data;
-}
-
-fetchBooks();
 
 function createBook(info) {
   const tr = document.createElement("tr");
@@ -37,7 +20,7 @@ function createBook(info) {
                 <td>${author}</td>
                 <td>${publisher}</td>
                 <td>
-                 <button onclick="location.href='detail.html'">Detail</button>
+                 <button onclick="location.href='detail.html?isbn=${isbn}'">Detail</button>
                 </td>
                 
               </tr>
@@ -67,63 +50,24 @@ function createBook(info) {
   return tr;
 }
 
-/* const detailContainer = document.getElementById("detail-container"); */
 
-/* function createDetail(detail) {
-  //detailContainer.innerHTML = "";
-  const main = document.createElement("main");
+async function main(){
+const data = await fetchBooks();
+const bookList = document.getElementById("book-list");
+bookList.innerHTML= ``
+  data.forEach((book) => {
+    const newBook = createBook(book);
+    bookList.append(newBook);
+   // createDetail(book);
+  });
+}
 
-  const id = detail.id;
-  const title = detail.title;
-  const subtitle = detail.subtitle;
-  const isbn = detail.isbn;
-  const abstract = detail.abstract;
-  const author = detail.author;
-  const publisher = detail.publisher;
-  const price = detail.price;
-  const numPages = detail.numPages;
-  const cover = detail.cover;
-  const userId = detail.userId;
-
-  main.innerHTML = `
-
-      <h1>
-        ${title}<br />
-        <small>${subtitle}</small>
-      </h1>
-      <section class="row">
-        <div class="column column-67">
-          <h3>Abstract</h3>
-          <p>
-           ${abstract}
-          </p>
-
-          <h4>Details</h4>
-          <ul>
-            <li><strong>Author:</strong> ${author}</li>
-            <li><strong>Publisher:</strong> ${publisher}</li>
-            <li><strong>Pages:</strong> ${numPages}</li>
-          </ul>
-
-          <button
-            class="button button-outline"
-            onclick="location.href='index.html'"
-          >
-            Back
-          </button>
-        </div>
-        <div class="column column-33">
-          <img src=${cover} alt=${title} />
-        </div>
-      </section>
+main();
 
 
-`;
-  main.append(detailContainer);
-  return main;
-} */
 
-/* function getIsbnFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("isbn");
-} */
+
+
+
+
+

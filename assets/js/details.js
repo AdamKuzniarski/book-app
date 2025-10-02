@@ -2,7 +2,7 @@ const detailContainer = document.getElementById("detail-container");
 
 export function createDetail(detail) {
   //detailContainer.innerHTML = "";
-  const main = document.createElement("main");
+  const mainElement = document.createElement("main");
 
   const id = detail.id;
   const title = detail.title;
@@ -16,7 +16,7 @@ export function createDetail(detail) {
   const cover = detail.cover;
   const userId = detail.userId;
 
-  main.innerHTML = `
+  mainElement.innerHTML = `
 
       <h1>
         ${title}<br />
@@ -50,8 +50,19 @@ export function createDetail(detail) {
 
 
 `;
-  main.append(detailContainer);
-  return main;
+  mainElement.append(detailContainer);
+  return mainElement;
 }
 
 
+ function getIsbnFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("isbn");
+} 
+
+async function main(){
+//hol die isbn
+//fetch buch mit isbn
+// setz die detailspage um
+}
+main();
