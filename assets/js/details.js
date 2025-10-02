@@ -54,15 +54,16 @@ export function createDetail(detail) {
   return mainElement;
 }
 
-
- function getIsbnFromUrl() {
+function getIsbnFromUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get("isbn");
-} 
+}
 
-async function main(){
-//hol die isbn
-//fetch buch mit isbn
-// setz die detailspage ums
+async function main() {
+  //hol die isbn
+  //fetch buch mit isbn
+  // setz die detailspage ums
 }
 main();
+
+// hallo adam
