@@ -63,6 +63,6 @@ export function createDetail(detail) {
 async function main(){
 //hol die isbn
 //fetch buch mit isbn
-// setz die detailspage um
+// setz die detailspage ums
 }
 main();
