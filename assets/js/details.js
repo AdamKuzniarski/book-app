@@ -1,6 +1,6 @@
 const detailContainer = document.getElementById("detail-container");
 
-export default function createDetail(detail) {
+export function createDetail(detail) {
   //detailContainer.innerHTML = "";
   const main = document.createElement("main");
 
@@ -54,7 +54,4 @@ export default function createDetail(detail) {
   return main;
 }
 
-function getIsbnFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("isbn");
-}
+

@@ -1,5 +1,4 @@
-
-import createDetail from "./details.js";
+import { createDetail } from "./details.js";
 
 const bookList = document.getElementById("book-list");
 
@@ -12,12 +11,13 @@ async function fetchBooks() {
   data.forEach((book) => {
     const newBook = createBook(book);
     bookList.append(newBook);
-    createDetail(book);
+    //createDetail(book);
   });
-
 
   return data;
 }
+
+fetchBooks();
 
 function createBook(info) {
   const tr = document.createElement("tr");
@@ -67,10 +67,9 @@ function createBook(info) {
   return tr;
 }
 
-
 /* const detailContainer = document.getElementById("detail-container"); */
 
- /* function createDetail(detail) {
+/* function createDetail(detail) {
   //detailContainer.innerHTML = "";
   const main = document.createElement("main");
 
@@ -128,8 +127,3 @@ function createBook(info) {
   const params = new URLSearchParams(window.location.search);
   return params.get("isbn");
 } */
-
-
-
-
-
